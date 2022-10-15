@@ -1,10 +1,18 @@
 from tkinter import *
 
+
 class ProfileFrame():
     def __init__(self, framePoint):
+        self.knocked_state = IntVar()
+        self.sleep_state = IntVar()
+        self.disarmed_state = IntVar()
+
         # First Row
-        self.name_input = Entry(framePoint, width=25)
-        self.name_input.grid(column=1, row=1, columnspan=3)
+        self.name_input = Entry(framePoint, width=25, bd=4)
+        self.name_input.grid(column=1, row=1, columnspan=2)
+
+        self.load_name = Button(framePoint, text="Open Profiles")
+        self.load_name.grid(column=3, row=1, padx=10)
 
         self.att_quick_label = Label(framePoint, text="Attack Quickness:")
         self.att_quick_label.grid(column=4, row=1, columnspan=2)
@@ -66,19 +74,22 @@ class ProfileFrame():
         self.knocked_label = Label(framePoint, text="Knocked down")
         self.knocked_label.grid(column=1, row=3)
 
-        self.knocked_box = Checkbutton(framePoint)
+        self.knocked_box = Checkbutton(framePoint, variable=self.knocked_state,
+                                       command=lambda: self.frame_states(framePoint))
         self.knocked_box.grid(column=2, row=3)
 
         self.asleep_label = Label(framePoint, text="Asleep")
         self.asleep_label.grid(column=3, row=3)
 
-        self.asleep_box = Checkbutton(framePoint)
+        self.asleep_box = Checkbutton(framePoint, variable=self.sleep_state,
+                                      command=lambda: self.frame_states(framePoint))
         self.asleep_box.grid(column=4, row=3)
 
         self.disarmed_label = Label(framePoint, text="Disarmed")
         self.disarmed_label.grid(column=5, row=3)
 
-        self.disarmed_box = Checkbutton(framePoint)
+        self.disarmed_box = Checkbutton(framePoint, variable=self.disarmed_state,
+                                        command=lambda: self.frame_states(framePoint))
         self.disarmed_box.grid(column=6, row=3)
 
         self.parry_label = Label(framePoint, text="Forced to parry")
@@ -96,5 +107,13 @@ class ProfileFrame():
         self.clear_button = Button(framePoint, text="Clear", highlightthickness=0)
         self.clear_button.grid(column=11, row=3)
 
-        print("Initialized profile")
-
+    def frame_states(self, framePoint):
+        """ Set background color dependant on if a condition is enabled """
+        if self.knocked_state.get() == 1:
+            framePoint.config(bg="blue")
+        elif self.sleep_state.get() == 1:
+            framePoint.config(bg="yellow")
+        elif self.disarmed_state.get() == 1:
+            framePoint.config(bg="orange")
+        else:
+            framePoint.config(bg="white")
