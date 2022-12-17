@@ -6,6 +6,7 @@
         <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
         <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
         <title>Rolemaster Tracker</title>
+        <link rel="stylesheet" href="main.css">
     </head>
     <body>
         <h1>Rolemaster Tracker</h1>
@@ -26,30 +27,29 @@
         </div>
         <script>
             $(document).ready(function() {
-                $("#objects").append(
-                                    "<div id='object_template'>+" +
-                                    "<ul id='first_row'>" +
-                                    "<li><input></input></li>" +
-                                    "<li><input></input></li>" +
-                                    "<li><input></input></li>" +
-                                    "<li><input></input></li>" +
-                                    "</ul>" +
-                                    "<ul id='sec_row'>" +
-                                        "<li><input></input></li>" +
-                                        "<li><input></input></li>" +
-                                        "<li><input></input></li>" +
-                                        "<li><input></input></li>" +
-                                        "<li><input></input></li>" +
-                                    "</ul>" +
-                                    "<ul id='third_row'>" +
-                                        "<li><input></input></li>" +
-                                        "<li><input></input></li>" +
-                                        "<li><input></input></li>" +
-                                        "<li><input></input></li>" +
-                                        "<li><input></input></li>" +
-                                    "</ul>" +
-                                    "</div>"
-                                    );
+                var objectTemplate = "<div id='object_template'>" +
+                                        "<ul id='first_row'>" +
+                                            "<li>Name: <input></input></li>" +
+                                            "<li>AT Q: <input type='number'></input></li>" +
+                                            "<li>Bleed Amt. <input type='number'></input></li>" +
+                                            "<li>Bleed Dur. <input type='number'></input></li>" +
+                                        "</ul>" +
+                                        "<ul id='sec_row'>" +
+                                            "<li>Total HP: <input type='number'></input></li>" +
+                                            "<li>Curr. HP: <input type='number'></input></li>" +
+                                            "<li>Total PP: <input type='number'></input></li>" +
+                                            "<li>Curr. PP: <input type='number'></input></li>" +
+                                            "<li>Stun Dur. <input type='number'></input></li>" +
+                                        "</ul>" +
+                                        "<ul id='third_row'>" +
+                                            "<li>Knocked Down: <input type='checkbox'></input></li>" +
+                                            "<li>Asleep: <input type='checkbox'></input></li>" +
+                                            "<li>Disarmed: <input type='checkbox'></input></li>" +
+                                            "<li>Forced Parry: <input type='number'></input></li>" +
+                                            "<li>Penalty: <input type='number'></input></li>" +
+                                        "</ul>" +
+                                        "</div>"
+                $("#objects").append(objectTemplate);
             });
 
         </script>
