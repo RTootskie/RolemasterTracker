@@ -1,3 +1,35 @@
 #objects input[type="number"] {
     width: 50px;
 }
+
+#objects ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+#objects li {
+    display: inline;
+}
+
+#object_template {
+    border: 1px solid black;
+    padding: 20px;
+}
+
+#objects div:last-child {
+    margin-bottom: 50px;
+}
+
+#add_object {
+    font-size: 80px;
+    text-decoration: none;
+    background-color: transparent;
+    background-repeat: no-repeat;
+    border: none;
+    cursor: pointer;
+    overflow: hidden;
+    outline: none;
+    text-align: center;
+    width: 100%;
+}

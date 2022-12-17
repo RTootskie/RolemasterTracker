@@ -23,32 +23,38 @@
         </div>
         <div id="tracker-objects">
             <div id="objects"></div>
-            <button>+</button>
+            <button id="add_object">+</button>
         </div>
         <script>
+            var objectTemplate = "<div id='object_template'>" +
+                                    "<ul id='first_row'>" +
+                                        "<li>Name: <input></input></li>" +
+                                        "<li>AT Q: <input type='number'></input></li>" +
+                                        "<li>Bleed Amt. <input type='number'></input></li>" +
+                                        "<li>Bleed Dur. <input type='number'></input></li>" +
+                                    "</ul>" +
+                                    "<ul id='sec_row'>" +
+                                        "<li>Total HP: <input type='number'></input></li>" +
+                                        "<li>Curr. HP: <input type='number'></input></li>" +
+                                        "<li>Total PP: <input type='number'></input></li>" +
+                                        "<li>Curr. PP: <input type='number'></input></li>" +
+                                        "<li>Stun Dur. <input type='number'></input></li>" +
+                                    "</ul>" +
+                                    "<ul id='third_row'>" +
+                                        "<li>Knocked Down: <input type='checkbox'></input></li>" +
+                                        "<li>Asleep: <input type='checkbox'></input></li>" +
+                                        "<li>Disarmed: <input type='checkbox'></input></li>" +
+                                        "<li>Forced Parry: <input type='number'></input></li>" +
+                                        "<li>Penalty: <input type='number'></input></li>" +
+                                    "</ul>" +
+                                    "</div>"
+                                    
             $(document).ready(function() {
-                var objectTemplate = "<div id='object_template'>" +
-                                        "<ul id='first_row'>" +
-                                            "<li>Name: <input></input></li>" +
-                                            "<li>AT Q: <input type='number'></input></li>" +
-                                            "<li>Bleed Amt. <input type='number'></input></li>" +
-                                            "<li>Bleed Dur. <input type='number'></input></li>" +
-                                        "</ul>" +
-                                        "<ul id='sec_row'>" +
-                                            "<li>Total HP: <input type='number'></input></li>" +
-                                            "<li>Curr. HP: <input type='number'></input></li>" +
-                                            "<li>Total PP: <input type='number'></input></li>" +
-                                            "<li>Curr. PP: <input type='number'></input></li>" +
-                                            "<li>Stun Dur. <input type='number'></input></li>" +
-                                        "</ul>" +
-                                        "<ul id='third_row'>" +
-                                            "<li>Knocked Down: <input type='checkbox'></input></li>" +
-                                            "<li>Asleep: <input type='checkbox'></input></li>" +
-                                            "<li>Disarmed: <input type='checkbox'></input></li>" +
-                                            "<li>Forced Parry: <input type='number'></input></li>" +
-                                            "<li>Penalty: <input type='number'></input></li>" +
-                                        "</ul>" +
-                                        "</div>"
+                $("#objects").append(objectTemplate);
+            });
+
+            $("#add_object").click(function() {
+                console.log("added?")
                 $("#objects").append(objectTemplate);
             });
 
