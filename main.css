@@ -44,3 +44,7 @@ div[id^="object_template"] {
     outline: none;
     text-align: center;
 }
+
+/* #save_button {
+    display: none;
+} */

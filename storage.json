@@ -1,0 +1,24 @@
+{
+    "data": {
+        "1": {
+            "characters": {
+                "1": {
+                    "name":"",
+                    "Attack Quickness": null,
+                    "Bleed Amount": null,
+                    "Bleed Duration": null,
+                    "Total HP": null,
+                    "Current HP": null,
+                    "Total Power": null,
+                    "Current Power": null,
+                    "Stun Duration": null,
+                    "Knocked Down": false,
+                    "Asleep": false,
+                    "Disarmed": false,
+                    "Forced Parry": null,
+                    "Penalty": null
+                }
+            }
+        }
+    }
+}
