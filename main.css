@@ -1,5 +1,15 @@
+#upper-menu {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
 #menu-buttons p {
     display: inline;
+}
+
+#objects {
+    display: grid;
+    grid-template-columns: 0fr 0fr 0fr 0fr 0fr;
 }
 
 #objects input[type="number"] {
@@ -22,6 +32,8 @@ div[id^="object_template"] {
     border: 1px solid black;
     padding: 20px;
     text-align: left;
+    width: 210px;
+    height: 450px;
 }
 
 #objects div:last-child {

@@ -1,24 +1,18 @@
 var accessData;
-var objectTemplate = "<ul id='first_row'>" +
-                            "<li>Name: <input id='char_name'></input></li>" +
-                            "<li>AT Q: <input id='char_quick' type='number'></input></li>" +
-                            "<li>Bleed Amt. <input id='char_bleedamt' type='number'></input></li>" +
-                            "<li>Bleed Dur. <input id='char_bleeddur' type='number'></input></li>" +
-                        "</ul>" +
-                        "<ul id='sec_row'>" +
-                            "<li>Total HP: <input id='char_totalhp' type='number'></input></li>" +
-                            "<li>Curr. HP: <input id='char_currhp' type='number'></input></li>" +
-                            "<li>Total PP: <input id='char_totalpp' type='number'></input></li>" +
-                            "<li>Curr. PP: <input id='char_currpp' type='number'></input></li>" +
-                            "<li>Stun Dur. <input id='char_stun' type='number'></input></li>" +
-                        "</ul>" +
-                        "<ul id='third_row'>" +
-                            "<li>Knocked Down: <input id='char_knock' type='checkbox'></input></li>" +
-                            "<li>Asleep: <input id='char_asleep' type='checkbox'></input></li>" +
-                            "<li>Disarmed: <input id='char_disarm' type='checkbox'></input></li>" +
-                            "<li>Forced Parry: <input id='char_parry' type='number'></input></li>" +
-                            "<li>Penalty: <input id='char_penalty' type='number'></input></li>" +
-                        "</ul>" +
+var objectTemplate =        "<li>Name: <input id='char_name'></input></li><br>" +
+                            "<li>AT Q: <input id='char_quick' type='number'></input></li><br><br>" +
+                            "<li>Total HP: <input id='char_totalhp' type='number'></input></li><br>" +
+                            "<li>Curr. HP: <input id='char_currhp' type='number'></input></li><br><br>" +
+                            "<li>Bleed Amt. <input id='char_bleedamt' type='number'></input></li><br>" +
+                            "<li>Bleed Dur. <input id='char_bleeddur' type='number'></input></li><br><br>" +
+                            "<li>Total PP: <input id='char_totalpp' type='number'></input></li><br>" +
+                            "<li>Curr. PP: <input id='char_currpp' type='number'></input></li><br><br>" +
+                            "<li>Stun Dur. <input id='char_stun' type='number'></input></li><br><br>" +
+                            "<li>Knocked Down: <input id='char_knock' type='checkbox'></input></li><br>" +
+                            "<li>Asleep: <input id='char_asleep' type='checkbox'></input></li><br>" +
+                            "<li>Disarmed: <input id='char_disarm' type='checkbox'></input></li><br><br>" +
+                            "<li>Forced Parry: <input id='char_parry' type='number'></input></li><br>" +
+                            "<li>Penalty: <input id='char_penalty' type='number'></input></li><br>" +
                         "</div>"
 
 var jsonTemplate = {
@@ -114,6 +108,7 @@ $(document).ready(function() {
             });
         });
     });
+
     $("#add_object").click(function() {
         var div_amount = $("#objects").children("div").length + 1;
         $("#objects").append("<div id='object_template_"+div_amount+"'>" +
@@ -204,6 +199,8 @@ $(document).ready(function() {
                 $(`#${$(value).attr("id")} #char_currhp`).val(char_health);
                 $(`#${$(value).attr("id")} #char_stun`).val(char_stunned);
                 $(`#${$(value).attr("id")} #char_parry`).val(char_forced);
+
+                $(`#${$(value).attr("id")} #char_stun`).change();
             });
         } else {
             charObject = localStorage.getItem('charObject');
@@ -300,4 +297,40 @@ $(document).ready(function() {
             $(this).remove()
         })[0].click()
     });
+
+    // When Reshuffle is clicked
+    $("#reshuffle").click(function() {
+        var amount_quick = 0;
+        $("#short_desc").html("Making tracking easier");
+        $("#objects").children().each(function() {
+            if ($(this).find("#char_quick").val()) {
+                amount_quick++
+            };
+
+            console.log($(this).attr("id"));
+            console.log($(this).find("#char_quick").val());
+        });
+
+        if (amount_quick >= 2) {
+            console.log("Got here");
+
+        } else {
+            $("#short_desc").append("<br><br>Didn't find 2 or more characters with AT Q value.");
+        };
+    });
+});
+
+// Check for status effects
+$("#objects").on("change", "div[id^='object_template']", function() {
+    if ($(this).find("#char_stun").val() >= 1) {
+        $(this).css('background-color', '#C9BA19');
+    } else if ($(this).find("#char_knock").is(":checked")) {
+        $(this).css('background-color', '#6699ff');
+    } else if ($(this).find("#char_asleep").is(":checked")) {
+        $(this).css('background-color', '#31B057');
+    } else if ($(this).find("#char_disarm").is(":checked")) {
+        $(this).css('background-color', '#8249D5');
+    } else {
+        $(this).css('background-color', '#fff');
+    }
 });
