@@ -8,9 +8,9 @@ var objectTemplate =        "<li>Name: <input id='char_name'></input></li><br>" 
                             "<li>Total PP: <input id='char_totalpp' type='number'></input></li><br>" +
                             "<li>Curr. PP: <input id='char_currpp' type='number'></input></li><br><br>" +
                             "<li>Stun Dur. <input id='char_stun' type='number'></input></li><br><br>" +
-                            "<li>Knocked Down: <input id='char_knock' type='checkbox'></input></li><br>" +
-                            "<li>Asleep: <input id='char_asleep' type='checkbox'></input></li><br>" +
-                            "<li>Disarmed: <input id='char_disarm' type='checkbox'></input></li><br><br>" +
+                            "<li id='knocked_block'>Knocked Down: <input id='char_knock' type='checkbox'></input></li><br><br>" +
+                            "<li id='asleep_block'>Asleep: <input id='char_asleep' type='checkbox'></input></li><br><br>" +
+                            "<li id='disarm_block'>Disarmed: <input id='char_disarm' type='checkbox'></input></li><br><br>" +
                             "<li>Forced Parry: <input id='char_parry' type='number'></input></li><br>" +
                             "<li>Penalty: <input id='char_penalty' type='number'></input></li><br>" +
                         "</div>"
@@ -201,6 +201,9 @@ $(document).ready(function() {
                 $(`#${$(value).attr("id")} #char_parry`).val(char_forced);
 
                 $(`#${$(value).attr("id")} #char_stun`).change();
+                $(`#${$(value).attr("id")} #char_knock`).change();
+                $(`#${$(value).attr("id")} #char_asleep`).change();
+                $(`#${$(value).attr("id")} #char_disarm`).change();
             });
         } else {
             charObject = localStorage.getItem('charObject');
@@ -221,11 +224,33 @@ $(document).ready(function() {
                     $(`#object_template_${index} #char_totalpp`).val(charData[index]["Total Power"]);
                     $(`#object_template_${index} #char_currpp`).val(charData[index]["Current Power"]);
                     $(`#object_template_${index} #char_stun`).val(charData[index]["Stun Duration"]);
-                    $(`#object_template_${index} #char_knock`).val(charData[index]["Knocked Down"]);
-                    $(`#object_template_${index} #char_asleep`).val(charData[index]["Asleep"]);
-                    $(`#object_template_${index} #char_disarm`).val(charData[index]["Disarmed"]);
                     $(`#object_template_${index} #char_parry`).val(charData[index]["Forced Parry"]);
                     $(`#object_template_${index} #char_penalty`).val(charData[index]["Penalty"]);
+
+
+
+                    if (charData[index]["Knocked Down"] == true) {
+                        $(`#object_template_${index} #char_knock`).prop('checked', true)
+                    } else {
+                        $(`#object_template_${index} #char_knock`).prop('checked', false)
+                    }
+
+                    if (charData[index]["Asleep"] == true) {
+                        $(`#object_template_${index} #char_asleep`).prop('checked', true)
+                    } else {
+                        $(`#object_template_${index} #char_asleep`).prop('checked', false)
+                    }
+
+                    if (charData[index]["Disarmed"] == true) {
+                        $(`#object_template_${index} #char_disarm`).prop('checked', true)
+                    } else {
+                        $(`#object_template_${index} #char_disarm`).prop('checked', false)
+                    }
+
+                    $(`#object_template_${index} #char_stun`).change();
+                    $(`#object_template_${index} #char_knock`).change();
+                    $(`#object_template_${index} #char_asleep`).change();
+                    $(`#object_template_${index} #char_disarm`).change();
                 });
             });
         }
@@ -257,11 +282,32 @@ $(document).ready(function() {
                 $(`#object_template_${index} #char_totalpp`).val(charData[index]["Total Power"]);
                 $(`#object_template_${index} #char_currpp`).val(charData[index]["Current Power"]);
                 $(`#object_template_${index} #char_stun`).val(charData[index]["Stun Duration"]);
-                $(`#object_template_${index} #char_knock`).val(charData[index]["Knocked Down"]);
-                $(`#object_template_${index} #char_asleep`).val(charData[index]["Asleep"]);
-                $(`#object_template_${index} #char_disarm`).val(charData[index]["Disarmed"]);
                 $(`#object_template_${index} #char_parry`).val(charData[index]["Forced Parry"]);
                 $(`#object_template_${index} #char_penalty`).val(charData[index]["Penalty"]);
+
+
+                if (charData[index]["Knocked Down"] == true) {
+                    $(`#object_template_${index} #char_knock`).prop('checked', true)
+                } else {
+                    $(`#object_template_${index} #char_knock`).prop('checked', false)
+                }
+
+                if (charData[index]["Asleep"] == true) {
+                    $(`#object_template_${index} #char_asleep`).prop('checked', true)
+                } else {
+                    $(`#object_template_${index} #char_asleep`).prop('checked', false)
+                }
+
+                if (charData[index]["Disarmed"] == true) {
+                    $(`#object_template_${index} #char_disarm`).prop('checked', true)
+                } else {
+                    $(`#object_template_${index} #char_disarm`).prop('checked', false)
+                }
+
+                $(`#object_template_${index} #char_stun`).change();
+                $(`#object_template_${index} #char_knock`).change();
+                $(`#object_template_${index} #char_asleep`).change();
+                $(`#object_template_${index} #char_disarm`).change();
             });
         });
     });
@@ -324,13 +370,25 @@ $(document).ready(function() {
 $("#objects").on("change", "div[id^='object_template']", function() {
     if ($(this).find("#char_stun").val() >= 1) {
         $(this).css('background-color', '#C9BA19');
-    } else if ($(this).find("#char_knock").is(":checked")) {
-        $(this).css('background-color', '#6699ff');
-    } else if ($(this).find("#char_asleep").is(":checked")) {
-        $(this).css('background-color', '#31B057');
-    } else if ($(this).find("#char_disarm").is(":checked")) {
-        $(this).css('background-color', '#8249D5');
     } else {
         $(this).css('background-color', '#fff');
+    }
+
+    if ($(this).find("#char_knock").is(":checked")) {
+        $(this).find("#knocked_block").css('background-color', '#6699ff');
+    } else {
+        $(this).find("#knocked_block").css('background-color', '#fff');
+    }
+
+    if ($(this).find("#char_asleep").is(":checked")) {
+        $(this).find("#asleep_block").css('background-color', '#31B057');
+    } else {
+        $(this).find("#asleep_block").css('background-color', '#fff');
+    } 
+
+    if ($(this).find("#char_disarm").is(":checked")) {
+        $(this).find("#disarm_block").css('background-color', '#8249D5');
+    } else {
+        $(this).find("#disarm_block").css('background-color', '#fff');
     }
 });
