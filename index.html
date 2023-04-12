@@ -20,14 +20,19 @@
                         <li><button id="reshuffle">Reshuffle</button> - <p>Reorder templates by AT Q</p></li>
                         <li><button id="clear">Clear Tracker</button> - <p>Empty the tracker</p></li>
                         <li id="save_button"><button id="save">Save Current</button> - <p>Manual save (Not going to press next round)</p></li>
-                        <li>Round <p id="current_round">1</p>/<p id="total_round">1</p> - <p>Round count</p></li>
                         <li><button id="previous">Previous Round</button> - <p>Go back a round</p></li>
                         <li><button id="next">Next Round</button> - <p>Save and Go forward a round</p></li>
                     </ul>
                 </nav>
             </div>
-            <div>
+            <div id="displays">
                 <button id="add_object">+</button>
+                <div id="round_container">
+                    <p>Round</p>
+                    <p id="current_round">1</p>
+                    <p>/</p>
+                    <p id="total_round">1</p>
+                </div>
             </div>
         </div>
         <div id="tracker-objects">

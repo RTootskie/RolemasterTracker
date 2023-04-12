@@ -57,6 +57,16 @@ div[id^="object_template"] {
     text-align: center;
 }
 
+#displays {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+#round_container {
+    display: grid;
+    grid-template-columns: 0.5fr 0fr 0fr 0fr;
+    font-size: 50px;
+}
 /* #save_button {
     display: none;
 } */
