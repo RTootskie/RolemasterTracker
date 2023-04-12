@@ -342,22 +342,77 @@ $(document).ready(function() {
         })[0].click()
     });
 
+
+    function sortNumber(a,b) {
+        return b - a;
+    }
+
+    function sortDictionary(dictionary) {
+        var keys = [];
+        for (var key in dictionary) {
+            keys[keys.length] = key;
+        }
+
+        var values = [];
+        for (var i = 0; i < keys.length; i++) {
+            values[values.length] = dictionary[keys [i]];
+        }
+
+        var sortedValues = values.sort(sortNumber);
+        return sortedValues;
+    }
+
     // When Reshuffle is clicked
     $("#reshuffle").click(function() {
-        var amount_quick = 0;
         $("#short_desc").html("Making tracking easier");
-        $("#objects").children().each(function() {
+
+        var amount_quick = 0;
+        var all_template_quickness = {}
+        var all_quicknesses = []
+        var all_templates = []
+
+        $("#objects").children().each(function(index, value) {
             if ($(this).find("#char_quick").val()) {
                 amount_quick++
             };
-
-            console.log($(this).attr("id"));
-            console.log($(this).find("#char_quick").val());
+            all_template_quickness[$(this).attr("id")] = $(this).find("#char_quick").val();
+            all_quicknesses[index] = $(this).find("#char_quick").val();
+            all_templates[index] = $(this).attr("id");
         });
 
         if (amount_quick >= 2) {
-            console.log("Got here");
 
+
+            var sorted_quickness = all_quicknesses.sort(sortNumber);
+            var replaced_values = {};
+
+            $.each(sorted_quickness, function(iteration, quickness) {
+                $.each(all_template_quickness, function(key, key_value) {
+                    if (key_value == quickness) {
+                        replaced_values[key] = Number(iteration) + 1
+                    };
+                });
+            });
+
+            var correct_position_values = {};
+
+            $.each(replaced_values, function(template, proper_position) {
+                correct_position_values[`object_template_${proper_position}`] = {}
+                $.each($(`#${template}`).find("input[id]"), function(index, input_object) {
+                    if (($(input_object).prop('type')) == "checkbox") {
+                        correct_position_values[`object_template_${proper_position}`][$(input_object).attr("id")] = $(input_object).is(":checked");
+                    } else {
+                        correct_position_values[`object_template_${proper_position}`][$(input_object).attr("id")] = $(input_object).val();
+                    }
+                });
+            });
+
+            $.each(correct_position_values, function(template, object) {
+                $.each(object, function(input_id, input_value) {
+                    $(`#${template} #${input_id}`).val(input_value);
+                });
+            });
+            
         } else {
             $("#short_desc").append("<br><br>Didn't find 2 or more characters with AT Q value.");
         };
