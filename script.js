@@ -1,5 +1,8 @@
 var accessData;
-var objectTemplate =        "<li>Name: <input id='char_name'></input></li><br>" +
+var objectTemplate =        "<button id='to_left'><</button>" +
+                            "<button id='remove'>X</button>" +
+                            "<button id='to_right'>></button><br><br>" +
+                            "<li>Name: <input id='char_name'></input></li><br>" +
                             "<li>AT Q: <input id='char_quick' type='number'></input></li><br><br>" +
                             "<li>Total HP: <input id='char_totalhp' type='number'></input></li><br>" +
                             "<li>Curr. HP: <input id='char_currhp' type='number'></input></li><br><br>" +
@@ -85,7 +88,6 @@ $(document).ready(function() {
                                         $("#objects").append("<div id='object_template_"+index+"'>" +
                                             objectTemplate);
                                     }
-                                    console.log(charData["characters"][index]["Knocked Down"]);
                                     $(`#object_template_${index} #char_name`).val(charData["characters"][index]["Name"]);
                                     $(`#object_template_${index} #char_quick`).val(charData["characters"][index]["Attack Quickness"]);
                                     $(`#object_template_${index} #char_bleedamt`).val(charData["characters"][index]["Bleed Amount"]);
@@ -122,9 +124,6 @@ $(document).ready(function() {
         $.each(all_elements, function(index, value) {
             character_number = index + 1;
             var editableJSON = $.parseJSON(localStorage.getItem('charObject'));
-            console.log(editableJSON);
-
-            console.log()
 
             if (editableJSON[`${current_round}`] === undefined) {
                 editableJSON[current_round] = {
@@ -176,7 +175,6 @@ $(document).ready(function() {
         if ( $.parseJSON(editableJSON)[`${current_round}`] === undefined) {
             var allElements = $("#objects").children("div");
             $.each(allElements, function(index, value) {
-                console.log(char_duration)
                 var char_amount = $(`#${$(value).attr("id")} #char_bleedamt`).val();
                 var char_duration = $(`#${$(value).attr("id")} #char_bleeddur`).val();
                 var char_health = $(`#${$(value).attr("id")} #char_currhp`).val()
@@ -390,5 +388,296 @@ $("#objects").on("change", "div[id^='object_template']", function() {
         $(this).find("#disarm_block").css('background-color', '#8249D5');
     } else {
         $(this).find("#disarm_block").css('background-color', '#fff');
+    }
+});
+
+$("#objects").on("click", "#to_left", function() {
+    var div_id = Number($(this).parent().attr("id").replace("object_template_",""));
+
+    $("#short_desc").html("Making tracking easier");
+
+    console.log("DivID:"+{div_id}+"\nNew_div_id:"+{new_div_id})
+
+    if (div_id != 1) {
+        var new_div_id = div_id - 1;
+
+        var clicked_values = {
+            "Name": $(`#object_template_${div_id} #char_name`).val(),
+            "Attack Quickness": $(`#object_template_${div_id} #char_quick`).val(),
+            "Bleed Amount": $(`#object_template_${div_id} #char_bleedamt`).val(),
+            "Bleed Duration": $(`#object_template_${div_id} #char_bleeddur`).val(),
+            "Total HP": $(`#object_template_${div_id} #char_totalhp`).val(),
+            "Current HP": $(`#object_template_${div_id} #char_currhp`).val(),
+            "Total Power": $(`#object_template_${div_id} #char_totalpp`).val(),
+            "Current Power": $(`#object_template_${div_id} #char_currpp`).val(),
+            "Stun Duration": $(`#object_template_${div_id} #char_stun`).val(),
+            "Knocked Down": $(`#object_template_${div_id} #char_knock`).is(":checked"),
+            "Asleep": $(`#object_template_${div_id} #char_asleep`).is(":checked"),
+            "Disarmed": $(`#object_template_${div_id} #char_disarm`).is(":checked"),
+            "Forced Parry": $(`#object_template_${div_id} #char_parry`).val(),
+            "Penalty": $(`#object_template_${div_id} #char_penalty`).val(),
+        }
+
+        var to_replace_values = {
+            "Name": $(`#object_template_${new_div_id} #char_name`).val(),
+            "Attack Quickness": $(`#object_template_${new_div_id} #char_quick`).val(),
+            "Bleed Amount": $(`#object_template_${new_div_id} #char_bleedamt`).val(),
+            "Bleed Duration": $(`#object_template_${new_div_id} #char_bleeddur`).val(),
+            "Total HP": $(`#object_template_${new_div_id} #char_totalhp`).val(),
+            "Current HP": $(`#object_template_${new_div_id} #char_currhp`).val(),
+            "Total Power": $(`#object_template_${new_div_id} #char_totalpp`).val(),
+            "Current Power": $(`#object_template_${new_div_id} #char_currpp`).val(),
+            "Stun Duration": $(`#object_template_${new_div_id} #char_stun`).val(),
+            "Knocked Down": $(`#object_template_${new_div_id} #char_knock`).is(":checked"),
+            "Asleep": $(`#object_template_${new_div_id} #char_asleep`).is(":checked"),
+            "Disarmed": $(`#object_template_${new_div_id} #char_disarm`).is(":checked"),
+            "Forced Parry": $(`#object_template_${new_div_id} #char_parry`).val(),
+            "Penalty": $(`#object_template_${new_div_id} #char_penalty`).val(),
+        }
+
+
+        $(`#object_template_${new_div_id} #char_name`).val(clicked_values["Name"]);
+        $(`#object_template_${div_id} #char_name`).val(to_replace_values["Name"]);
+
+        $(`#object_template_${new_div_id} #char_quick`).val(clicked_values["Attack Quickness"]);
+        $(`#object_template_${div_id} #char_quick`).val(to_replace_values["Attack Quickness"]);
+
+        $(`#object_template_${new_div_id} #char_bleedamt`).val(clicked_values["Bleed Amount"]);
+        $(`#object_template_${div_id} #char_bleedamt`).val(to_replace_values["Bleed Amount"]);
+
+        $(`#object_template_${new_div_id} #char_bleeddur`).val(clicked_values["Bleed Duration"]);
+        $(`#object_template_${div_id} #char_bleeddur`).val(to_replace_values["Bleed Duration"]);
+
+        $(`#object_template_${new_div_id} #char_totalhp`).val(clicked_values["Total HP"]);
+        $(`#object_template_${div_id} #char_totalhp`).val(to_replace_values["Total HP"]);
+
+        $(`#object_template_${new_div_id} #char_currhp`).val(clicked_values["Current HP"]);
+        $(`#object_template_${div_id} #char_currhp`).val(to_replace_values["Current HP"]);
+
+        $(`#object_template_${new_div_id} #char_totalpp`).val(clicked_values["Total Power"]);
+        $(`#object_template_${div_id} #char_totalpp`).val(to_replace_values["Total Power"]);
+
+        $(`#object_template_${new_div_id} #char_currpp`).val(clicked_values["Current Power"]);
+        $(`#object_template_${div_id} #char_currpp`).val(to_replace_values["Current Power"]);
+
+        $(`#object_template_${new_div_id} #char_stun`).val(clicked_values["Stun Duration"]);
+        $(`#object_template_${div_id} #char_stun`).val(to_replace_values["Stun Duration"]);
+
+        $(`#object_template_${new_div_id} #char_parry`).val(clicked_values["Forced Parry"]);
+        $(`#object_template_${div_id} #char_parry`).val(to_replace_values["Forced Parry"]);
+
+        $(`#object_template_${new_div_id} #char_penalty`).val(clicked_values["Penalty"]);
+        $(`#object_template_${div_id} #char_penalty`).val(to_replace_values["Penalty"]);
+
+
+
+        if (clicked_values["Knocked Down"] == true) {
+            $(`#object_template_${new_div_id} #char_knock`).prop('checked', true)
+        } else {
+            $(`#object_template_${new_div_id} #char_knock`).prop('checked', false)
+        }
+
+        if (to_replace_values["Knocked Down"] == true) {
+            $(`#object_template_${div_id} #char_knock`).prop('checked', true)
+        } else {
+            $(`#object_template_${div_id} #char_knock`).prop('checked', false)
+        }
+
+        if (clicked_values["Asleep"] == true) {
+            $(`#object_template_${new_div_id} #char_asleep`).prop('checked', true)
+        } else {
+            $(`#object_template_${new_div_id} #char_asleep`).prop('checked', false)
+        }
+
+        if (to_replace_values["Asleep"] == true) {
+            $(`#object_template_${div_id} #char_asleep`).prop('checked', true)
+        } else {
+            $(`#object_template_${div_id} #char_asleep`).prop('checked', false)
+        }
+
+        if (clicked_values["Disarmed"] == true) {
+            $(`#object_template_${new_div_id} #char_disarm`).prop('checked', true)
+        } else {
+            $(`#object_template_${new_div_id} #char_disarm`).prop('checked', false)
+        }
+
+        if (to_replace_values["Disarmed"] == true) {
+            $(`#object_template_${div_id} #char_disarm`).prop('checked', true)
+        } else {
+            $(`#object_template_${div_id} #char_disarm`).prop('checked', false)
+        }
+
+
+        $(`#object_template_${new_div_id} #char_stun`).change();
+        $(`#object_template_${new_div_id} #char_knock`).change();
+        $(`#object_template_${new_div_id} #char_asleep`).change();
+        $(`#object_template_${new_div_id} #char_disarm`).change();
+
+        $(`#object_template_${div_id} #char_stun`).change();
+        $(`#object_template_${div_id} #char_knock`).change();
+        $(`#object_template_${div_id} #char_asleep`).change();
+        $(`#object_template_${div_id} #char_disarm`).change();
+
+    } else {
+        $("#short_desc").append("<br><br>This character can't be moved further left.");
+    }
+});
+
+$("#objects").on("click", "#remove", function() {
+    $("#short_desc").html("Making tracking easier");
+
+    var div_id = Number($(this).parent().attr("id").replace("object_template_",""));
+    var max_char_amt = $("#objects").find("div[id^='object_template']").length;
+
+    if (max_char_amt == 1) {
+        $("#short_desc").append("<br><br>You should have more than one character before deleting.");
+    } else if (div_id == max_char_amt && div_id != 1) { // If it is the last character element - Since nothing has to be changed
+        $(`#object_template_${div_id}`).remove();
+    } else {
+        $(`#object_template_${div_id}`).remove();
+
+        $.each($("#objects").find("div[id^='object_template']"), function(index, value) {
+            if ($(value).attr("id").split("object_template_")[1] > div_id) {
+                var old_id = $(value).attr("id").split("object_template_")[1];
+                $(value).attr("id",`object_template_${old_id - 1}`);
+            }
+        });
+    }
+});
+
+$("#objects").on("click", "#to_right", function() {
+    var div_id = Number($(this).parent().attr("id").replace("object_template_",""));
+
+    var editableJSON = localStorage.getItem('charObject');
+    var max_char_amt;
+
+    // Get the amount of characters in current round
+    $.each($.parseJSON(editableJSON), function(index, value) {
+        max_char_amt = Object.keys($.parseJSON(editableJSON)[index]["characters"]).length;
+    });
+
+    $("#short_desc").html("Making tracking easier");
+
+    if (div_id != max_char_amt) {
+        var new_div_id = div_id + 1;
+
+        var clicked_values = {
+            "Name": $(`#object_template_${div_id} #char_name`).val(),
+            "Attack Quickness": $(`#object_template_${div_id} #char_quick`).val(),
+            "Bleed Amount": $(`#object_template_${div_id} #char_bleedamt`).val(),
+            "Bleed Duration": $(`#object_template_${div_id} #char_bleeddur`).val(),
+            "Total HP": $(`#object_template_${div_id} #char_totalhp`).val(),
+            "Current HP": $(`#object_template_${div_id} #char_currhp`).val(),
+            "Total Power": $(`#object_template_${div_id} #char_totalpp`).val(),
+            "Current Power": $(`#object_template_${div_id} #char_currpp`).val(),
+            "Stun Duration": $(`#object_template_${div_id} #char_stun`).val(),
+            "Knocked Down": $(`#object_template_${div_id} #char_knock`).is(":checked"),
+            "Asleep": $(`#object_template_${div_id} #char_asleep`).is(":checked"),
+            "Disarmed": $(`#object_template_${div_id} #char_disarm`).is(":checked"),
+            "Forced Parry": $(`#object_template_${div_id} #char_parry`).val(),
+            "Penalty": $(`#object_template_${div_id} #char_penalty`).val(),
+        }
+
+        var to_replace_values = {
+            "Name": $(`#object_template_${new_div_id} #char_name`).val(),
+            "Attack Quickness": $(`#object_template_${new_div_id} #char_quick`).val(),
+            "Bleed Amount": $(`#object_template_${new_div_id} #char_bleedamt`).val(),
+            "Bleed Duration": $(`#object_template_${new_div_id} #char_bleeddur`).val(),
+            "Total HP": $(`#object_template_${new_div_id} #char_totalhp`).val(),
+            "Current HP": $(`#object_template_${new_div_id} #char_currhp`).val(),
+            "Total Power": $(`#object_template_${new_div_id} #char_totalpp`).val(),
+            "Current Power": $(`#object_template_${new_div_id} #char_currpp`).val(),
+            "Stun Duration": $(`#object_template_${new_div_id} #char_stun`).val(),
+            "Knocked Down": $(`#object_template_${new_div_id} #char_knock`).is(":checked"),
+            "Asleep": $(`#object_template_${new_div_id} #char_asleep`).is(":checked"),
+            "Disarmed": $(`#object_template_${new_div_id} #char_disarm`).is(":checked"),
+            "Forced Parry": $(`#object_template_${new_div_id} #char_parry`).val(),
+            "Penalty": $(`#object_template_${new_div_id} #char_penalty`).val(),
+        }
+
+        $(`#object_template_${new_div_id} #char_name`).val(clicked_values["Name"]);
+        $(`#object_template_${div_id} #char_name`).val(to_replace_values["Name"]);
+
+        $(`#object_template_${new_div_id} #char_quick`).val(clicked_values["Attack Quickness"]);
+        $(`#object_template_${div_id} #char_quick`).val(to_replace_values["Attack Quickness"]);
+
+        $(`#object_template_${new_div_id} #char_bleedamt`).val(clicked_values["Bleed Amount"]);
+        $(`#object_template_${div_id} #char_bleedamt`).val(to_replace_values["Bleed Amount"]);
+
+        $(`#object_template_${new_div_id} #char_bleeddur`).val(clicked_values["Bleed Duration"]);
+        $(`#object_template_${div_id} #char_bleeddur`).val(to_replace_values["Bleed Duration"]);
+
+        $(`#object_template_${new_div_id} #char_totalhp`).val(clicked_values["Total HP"]);
+        $(`#object_template_${div_id} #char_totalhp`).val(to_replace_values["Total HP"]);
+
+        $(`#object_template_${new_div_id} #char_currhp`).val(clicked_values["Current HP"]);
+        $(`#object_template_${div_id} #char_currhp`).val(to_replace_values["Current HP"]);
+
+        $(`#object_template_${new_div_id} #char_totalpp`).val(clicked_values["Total Power"]);
+        $(`#object_template_${div_id} #char_totalpp`).val(to_replace_values["Total Power"]);
+
+        $(`#object_template_${new_div_id} #char_currpp`).val(clicked_values["Current Power"]);
+        $(`#object_template_${div_id} #char_currpp`).val(to_replace_values["Current Power"]);
+
+        $(`#object_template_${new_div_id} #char_stun`).val(clicked_values["Stun Duration"]);
+        $(`#object_template_${div_id} #char_stun`).val(to_replace_values["Stun Duration"]);
+
+        $(`#object_template_${new_div_id} #char_parry`).val(clicked_values["Forced Parry"]);
+        $(`#object_template_${div_id} #char_parry`).val(to_replace_values["Forced Parry"]);
+
+        $(`#object_template_${new_div_id} #char_penalty`).val(clicked_values["Penalty"]);
+        $(`#object_template_${div_id} #char_penalty`).val(to_replace_values["Penalty"]);
+
+
+
+        if (clicked_values["Knocked Down"] == true) {
+            $(`#object_template_${new_div_id} #char_knock`).prop('checked', true)
+        } else {
+            $(`#object_template_${new_div_id} #char_knock`).prop('checked', false)
+        }
+
+        if (to_replace_values["Knocked Down"] == true) {
+            $(`#object_template_${div_id} #char_knock`).prop('checked', true)
+        } else {
+            $(`#object_template_${div_id} #char_knock`).prop('checked', false)
+        }
+
+        if (clicked_values["Asleep"] == true) {
+            $(`#object_template_${new_div_id} #char_asleep`).prop('checked', true)
+        } else {
+            $(`#object_template_${new_div_id} #char_asleep`).prop('checked', false)
+        }
+
+        if (to_replace_values["Asleep"] == true) {
+            $(`#object_template_${div_id} #char_asleep`).prop('checked', true)
+        } else {
+            $(`#object_template_${div_id} #char_asleep`).prop('checked', false)
+        }
+
+        if (clicked_values["Disarmed"] == true) {
+            $(`#object_template_${new_div_id} #char_disarm`).prop('checked', true)
+        } else {
+            $(`#object_template_${new_div_id} #char_disarm`).prop('checked', false)
+        }
+
+        if (to_replace_values["Disarmed"] == true) {
+            $(`#object_template_${div_id} #char_disarm`).prop('checked', true)
+        } else {
+            $(`#object_template_${div_id} #char_disarm`).prop('checked', false)
+        }
+
+
+        $(`#object_template_${new_div_id} #char_stun`).change();
+        $(`#object_template_${new_div_id} #char_knock`).change();
+        $(`#object_template_${new_div_id} #char_asleep`).change();
+        $(`#object_template_${new_div_id} #char_disarm`).change();
+
+        $(`#object_template_${div_id} #char_stun`).change();
+        $(`#object_template_${div_id} #char_knock`).change();
+        $(`#object_template_${div_id} #char_asleep`).change();
+        $(`#object_template_${div_id} #char_disarm`).change();
+
+    } else {
+        $("#short_desc").append("<br><br>This character can't be moved further right.");
     }
 });
